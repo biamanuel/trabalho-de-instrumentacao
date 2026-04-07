@@ -107,9 +107,9 @@ int main(void)
   	TOF_BootSensor(&sensor);
   	VL53L1X_SetDistanceMode(sensor.id, 1);
   	VL53L1X_SetROI(sensor.id, 2, 2);
-//  	VL53L1X_SetTimingBudgetInMs(sensor.id, 500);
-  	 uint8_t distancia;
-  	 uint8_t buffer[32];
+
+  	uint8_t distancia;
+  	uint8_t buffer[32];
   	int size;
 
   /* USER CODE END 2 */
