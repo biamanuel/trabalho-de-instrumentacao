@@ -22,6 +22,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "VL53L1X.h"
+#include "VL53L1X_api.h"
 #include <stdio.h>
 /* USER CODE END Includes */
 
@@ -73,10 +74,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-// Setup Basico da Biblioteca
-	VL53L1X sensor;
-	TOF_InitStruct(&sensor, &hi2c1, 0x32, GPIOB, GPIO_PIN_9);
-	TOF_BootSensor(&sensor);
+
   /* USER CODE END 1 */
 
   /* MPU Configuration--------------------------------------------------------*/
@@ -103,6 +101,16 @@ int main(void)
   MX_I2C1_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+  // Setup Basico da Biblioteca
+  	VL53L1X sensor;
+  	TOF_InitStruct(&sensor, &hi2c1, 0x32, GPIOB, GPIO_PIN_9);
+  	TOF_BootSensor(&sensor);
+  	VL53L1X_SetDistanceMode(sensor.id, 1);
+  	VL53L1X_SetROI(sensor.id, 2, 2);
+//  	VL53L1X_SetTimingBudgetInMs(sensor.id, 500);
+  	 uint8_t distancia;
+  	 uint8_t buffer[32];
+  	int size;
 
   /* USER CODE END 2 */
 
@@ -111,11 +119,11 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-uint8_t distancia = TOF_GetDistance(&sensor);
-printf("%d\n\r", distancia);
-//HAL_UART_Transmit(&huart1, distancia, size, 10);
+	 distancia = TOF_GetDistance(&sensor);
+	 size = sprintf(buffer, "%d mm\r\n", distancia);
+	 HAL_UART_Transmit(&huart1, buffer, size, 10);
 
-HAL_Delay (100);
+	 HAL_Delay (100);
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
