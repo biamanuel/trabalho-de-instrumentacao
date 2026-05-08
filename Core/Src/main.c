@@ -119,7 +119,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-	 distancia = TOF_GetDistance(&sensor);
+	 distancia = 150 - TOF_GetDistance(&sensor);
 	 size = sprintf(buffer, "%d mm\r\n", distancia);
 	 HAL_UART_Transmit(&huart1, buffer, size, 10);
 
